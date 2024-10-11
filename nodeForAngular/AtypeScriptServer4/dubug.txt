@@ -1,0 +1,3 @@
+dubug in chrome 
+cmd /C "set "NODE_OPTIONS= --inspect "c:/Users/siva/AppData/Local/Programs/Microsoft VS Code/resources/app/extensions/ms-vscode.js-debug/src/bootloader.js"  --inspect-publish-uid=http" && set "VSCODE_INSPECTOR_OPTIONS=:::{"inspectorIpc":"\\\\.\\pipe\\node-cdp.18920-df8bc227-1227-1.sock","deferredMode":false,"waitForDebugger":"","execPath":"C:\\Program Files\\nodejs\\node.exe","onlyEntrypoint":false,"autoAttachMode":"always","fileCallback":"C:\\Users\\siva\\AppData\\Local\\Temp\\node-debug-callback-f3b325b04f7a2237"}" && "C:\Program Files\nodejs\node.exe" -r ts-node/register -r tsconfig-paths/register .\src\server.ts "
+

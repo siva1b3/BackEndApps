@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model AmstUser {
+  UserID                                         Int        @id(map: "PK_AmstUser__UserID") @default(autoincrement())
+  UserName                                       String     @db.VarChar(Max)
+  PassWordHash                                   String     @db.NVarChar(Max)
+  PasswordSalt                                   String     @db.NVarChar(10)
+  TwoFactorEnabled                               Boolean
+  LastPasswordResetDate                          DateTime   @db.DateTime
+  LastLoginDate                                  DateTime?  @db.DateTime
+  AccountStatus                                  String?    @db.VarChar(20)
+  ProfilePictureURL                              String     @db.VarChar(Max)
+  CreatedByID                                    Int
+  CreatedTime                                    DateTime   @default(now(), map: "DF_AmstUser__CreatedTime") @db.DateTime
+  ModifiedByID                                   Int?
+  ModifiedTime                                   DateTime?  @db.DateTime
+  ModifiedReason                                 String?    @db.VarChar(Max)
+  AmstUser_AmstUser_CreatedByIDToAmstUser        AmstUser   @relation("AmstUser_CreatedByIDToAmstUser", fields: [CreatedByID], references: [UserID], onUpdate: NoAction, map: "FK_AmstUser_AmstUser__UserID__CreatedByID")
+  other_AmstUser_AmstUser_CreatedByIDToAmstUser  AmstUser[] @relation("AmstUser_CreatedByIDToAmstUser")
+  AmstUser_AmstUser_ModifiedByIDToAmstUser       AmstUser?  @relation("AmstUser_ModifiedByIDToAmstUser", fields: [ModifiedByID], references: [UserID], onDelete: NoAction, onUpdate: NoAction, map: "FK_AmstUser_AmstUser__UserID__ModifiedByID")
+  other_AmstUser_AmstUser_ModifiedByIDToAmstUser AmstUser[] @relation("AmstUser_ModifiedByIDToAmstUser")
+}

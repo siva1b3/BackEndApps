@@ -1,0 +1,75 @@
+-- baseFolderStaructure
+
+```
+└── 📁expressServer
+    └── 📁src
+        └── app.ts
+        └── 📁config
+            └── databaseConfig.ts
+            └── envConfig.ts
+            └── formConfig.ts
+        └── 📁models
+            └── form1Model.ts
+            └── form2Model.ts
+            └── userModel.ts
+            └── dashboardModel.ts
+        └── 📁routes
+            └── form1Routes.ts
+            └── form2Routes.ts
+            └── userRoutes.ts
+            └── dashboardRoutes.ts
+        └── 📁server.ts
+        └── 📁services
+            └── form1Service.ts
+            └── form2Service.ts
+            └── userService.ts
+            └── dashboardService.ts
+        └── 📁types
+            └── form1Types.ts
+            └── form2Types.ts
+            └── userTypes.ts
+            └── dashboardTypes.ts
+        └── 📁controllers
+            └── form1Controller.ts
+            └── form2Controller.ts
+            └── userController.ts
+            └── dashboardController.ts
+        └── 📁validators
+            └── form1Validator.ts
+            └── form2Validator.ts
+            └── userValidator.ts
+            └── dashboardValidator.ts
+        └── 📁middleware
+            └── authMiddleware.ts
+            └── errorHandler.ts
+            └── formValidationMiddleware.ts
+        └── 📁utils
+            └── logger.ts
+            └── responseHelper.ts
+        └── 📁interfaces
+            └── IForm1.ts
+            └── IForm2.ts
+            └── IUser.ts
+            └── IDashboard.ts
+        └── 📁constants
+            └── messages.ts
+            └── formFieldConstants.ts
+            └── dashboardConstants.ts
+        └── 📁repositories
+            └── form1Repository.ts
+            └── form2Repository.ts
+            └── userRepository.ts
+            └── dashboardRepository.ts
+        └── 📁views
+            └── form1View.ts
+            └── form2View.ts
+            └── userDashboardView.ts
+            └── adminDashboardView.ts
+        └── 📁uploads
+            └── form1Uploads
+            └── form2Uploads
+            └── userUploads
+    └── package.json
+    └── tsconfig.json
+
+```

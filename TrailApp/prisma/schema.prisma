@@ -1,0 +1,185 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model LkpBloodGroup {
+  blood_group                          String       @id(map: "PK_LkpBloodGroup__blood_group") @db.VarChar(7)
+  is_active                            Boolean      @default(true, map: "DF_LkpBloodGroup__is_active")
+  created_id                           Int
+  created_name                         String?      @db.NVarChar(Max)
+  created_time                         DateTime     @default(now(), map: "DF_LkpBloodGroup__created_time") @db.DateTime
+  modified_id                          Int?
+  modified_name                        String?      @db.NVarChar(Max)
+  modified_time                        DateTime?    @db.DateTime
+  modified_reason                      String?      @db.VarChar(Max)
+  User_LkpBloodGroup_created_idToUser  User         @relation("LkpBloodGroup_created_idToUser", fields: [created_id], references: [user_id], onUpdate: NoAction, map: "FK_LkpBloodGroup_User__created_id__user_id")
+  User_LkpBloodGroup_modified_idToUser User?        @relation("LkpBloodGroup_modified_idToUser", fields: [modified_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_LkpBloodGroup_User__modified_id__user_id")
+  UserDetail                           UserDetail[]
+}
+
+model LkpEthnicity {
+  ethnicity                           String       @id(map: "PK_LkpEthnicity__ethinicity") @db.VarChar(50)
+  is_active                           Boolean      @default(true, map: "DF_LkpEthnicity__is_active")
+  created_id                          Int
+  created_name                        String?      @db.NVarChar(122)
+  created_time                        DateTime     @default(now(), map: "DF_LkpEthnicity__created_time") @db.DateTime
+  modified_id                         Int?
+  modified_name                       String?      @db.NVarChar(122)
+  modified_time                       DateTime?    @db.DateTime
+  modified_reason                     String?      @db.VarChar(255)
+  User_LkpEthnicity_created_idToUser  User         @relation("LkpEthnicity_created_idToUser", fields: [created_id], references: [user_id], onUpdate: NoAction, map: "FK_LkpEthnicity_User__created_id__user_id")
+  User_LkpEthnicity_modified_idToUser User?        @relation("LkpEthnicity_modified_idToUser", fields: [modified_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_LkpEthnicity_User__modified_id__user_id")
+  UserDetail                          UserDetail[]
+}
+
+model LkpGender {
+  gender                           String       @id(map: "PK_LkpGender__gender") @db.VarChar(50)
+  is_active                        Boolean      @default(true, map: "DF_LkpGender__is_active")
+  created_id                       Int
+  created_name                     String?      @db.NVarChar(122)
+  created_time                     DateTime     @default(now(), map: "DF_LkpGender__created_time") @db.DateTime
+  modified_id                      Int?
+  modified_name                    String?      @db.NVarChar(122)
+  modified_time                    DateTime?    @db.DateTime
+  modified_reason                  String?      @db.VarChar(255)
+  User_LkpGender_created_idToUser  User         @relation("LkpGender_created_idToUser", fields: [created_id], references: [user_id], onUpdate: NoAction, map: "FK_LkpGender_User__created_id__user_id")
+  User_LkpGender_modified_idToUser User?        @relation("LkpGender_modified_idToUser", fields: [modified_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_LkpGender_User__modified_id__user_id")
+  UserDetail                       UserDetail[]
+}
+
+model LkpLocation {
+  zip_code                           Int
+  city                               String        @db.VarChar(50)
+  county                             String        @db.VarChar(50)
+  state                              String        @db.VarChar(50)
+  country                            String        @db.VarChar(50)
+  is_active                          Boolean       @default(true, map: "DF_LkpLocation__is_active")
+  created_id                         Int
+  created_name                       String?       @db.NVarChar(122)
+  created_time                       DateTime      @default(now(), map: "DF_LkpLocation__created_time") @db.DateTime
+  modified_id                        Int?
+  modified_name                      String?       @db.NVarChar(122)
+  modified_time                      DateTime?     @db.DateTime
+  modified_reason                    String?       @db.VarChar(255)
+  User_LkpLocation_created_idToUser  User          @relation("LkpLocation_created_idToUser", fields: [created_id], references: [user_id], onUpdate: NoAction, map: "FK_LkpLocation_User__created_id__user_id")
+  User_LkpLocation_modified_idToUser User?         @relation("LkpLocation_modified_idToUser", fields: [modified_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_LkpLocation_User__modified_id__user_id")
+  UserAddress                        UserAddress[]
+
+  @@id([zip_code, city, county, state, country], map: "PK_LkpLocation__country")
+}
+
+model LkpRace {
+  race                           String       @id(map: "PK_LkpRace__race") @db.VarChar(50)
+  is_active                      Boolean      @default(true, map: "DF_LkpRace__is_active")
+  created_id                     Int
+  created_name                   String?      @db.NVarChar(122)
+  created_time                   DateTime     @default(now(), map: "DF_LkpRace__created_time") @db.DateTime
+  modified_id                    Int?
+  modified_name                  String?      @db.NVarChar(122)
+  modified_time                  DateTime?    @db.DateTime
+  modified_reason                String?      @db.VarChar(255)
+  User_LkpRace_created_idToUser  User         @relation("LkpRace_created_idToUser", fields: [created_id], references: [user_id], onUpdate: NoAction, map: "FK_LkpRace_User__created_id__user_id")
+  User_LkpRace_modified_idToUser User?        @relation("LkpRace_modified_idToUser", fields: [modified_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_LkpRace_User__modified_id__user_id")
+  UserDetail                     UserDetail[]
+}
+
+model User {
+  user_id                                       Int             @id(map: "PK_User__user_id") @default(autoincrement())
+  user_name                                     String          @unique(map: "UQ_User__user_name") @db.VarChar(50)
+  password_hash                                 String          @db.NVarChar(128)
+  password_salt                                 String          @db.VarChar(32)
+  two_factor_enabled                            Boolean
+  last_password_reset_date                      DateTime        @db.DateTime
+  last_login_time                               DateTime?       @db.DateTime
+  is_active_account                             Boolean
+  is_premium_account                            Boolean
+  profile_picture_url                           String          @db.NVarChar(255)
+  created_id                                    Int
+  created_time                                  DateTime        @default(now(), map: "DF_User__created_time") @db.DateTime
+  modified_id                                   Int?
+  modified_time                                 DateTime?       @db.DateTime
+  modified_reason                               String?         @db.VarChar(Max)
+  LkpBloodGroup_LkpBloodGroup_created_idToUser  LkpBloodGroup[] @relation("LkpBloodGroup_created_idToUser")
+  LkpBloodGroup_LkpBloodGroup_modified_idToUser LkpBloodGroup[] @relation("LkpBloodGroup_modified_idToUser")
+  LkpEthnicity_LkpEthnicity_created_idToUser    LkpEthnicity[]  @relation("LkpEthnicity_created_idToUser")
+  LkpEthnicity_LkpEthnicity_modified_idToUser   LkpEthnicity[]  @relation("LkpEthnicity_modified_idToUser")
+  LkpGender_LkpGender_created_idToUser          LkpGender[]     @relation("LkpGender_created_idToUser")
+  LkpGender_LkpGender_modified_idToUser         LkpGender[]     @relation("LkpGender_modified_idToUser")
+  LkpLocation_LkpLocation_created_idToUser      LkpLocation[]   @relation("LkpLocation_created_idToUser")
+  LkpLocation_LkpLocation_modified_idToUser     LkpLocation[]   @relation("LkpLocation_modified_idToUser")
+  LkpRace_LkpRace_created_idToUser              LkpRace[]       @relation("LkpRace_created_idToUser")
+  LkpRace_LkpRace_modified_idToUser             LkpRace[]       @relation("LkpRace_modified_idToUser")
+  User_User_created_idToUser                    User            @relation("User_created_idToUser", fields: [created_id], references: [user_id], onUpdate: NoAction, map: "FK_User_User__created_id__user_id")
+  other_User_User_created_idToUser              User[]          @relation("User_created_idToUser")
+  User_User_modified_idToUser                   User?           @relation("User_modified_idToUser", fields: [modified_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_User_User__modified_id__user_id")
+  other_User_User_modified_idToUser             User[]          @relation("User_modified_idToUser")
+  UserAddress_UserAddress_created_idToUser      UserAddress[]   @relation("UserAddress_created_idToUser")
+  UserAddress_UserAddress_modified_idToUser     UserAddress[]   @relation("UserAddress_modified_idToUser")
+  UserAddress_UserAddress_user_idToUser         UserAddress[]   @relation("UserAddress_user_idToUser")
+  UserDetail_UserDetail_created_idToUser        UserDetail[]    @relation("UserDetail_created_idToUser")
+  UserDetail_UserDetail_modified_idToUser       UserDetail[]    @relation("UserDetail_modified_idToUser")
+  UserDetail_UserDetail_user_idToUser           UserDetail[]    @relation("UserDetail_user_idToUser")
+}
+
+model UserAddress {
+  user_address_id                    Int          @id(map: "PK_UserAddress__user_address_id") @default(autoincrement())
+  user_id                            Int
+  street                             String?      @db.NVarChar(100)
+  zip_code                           Int?
+  city                               String?      @db.VarChar(50)
+  county                             String?      @db.VarChar(50)
+  state                              String?      @db.VarChar(50)
+  country                            String?      @db.VarChar(50)
+  is_current_address                 Boolean      @default(true, map: "DF_UserAddress__is_current_address")
+  begin_date                         DateTime     @db.Date
+  begin_time                         DateTime     @db.Time
+  end_date                           DateTime     @default(dbgenerated("CONVERT([date],'3000-12-31')"), map: "DF_UserAddress__end_date") @db.Date
+  end_time                           DateTime     @default(dbgenerated("CONVERT([time](0),'23:59:59')"), map: "DF_UserAddress__end_time") @db.Time
+  created_id                         Int
+  created_time                       DateTime     @default(now(), map: "DF_UserAddress__created_time") @db.DateTime
+  modified_id                        Int?
+  modified_time                      DateTime?    @db.DateTime
+  modified_reason                    String?      @db.VarChar(Max)
+  LkpLocation                        LkpLocation? @relation(fields: [zip_code, city, county, state, country], references: [zip_code, city, county, state, country], onDelete: NoAction, map: "FK_UserAddress_LkpLocation__zip_code__city__county__state__country")
+  User_UserAddress_created_idToUser  User         @relation("UserAddress_created_idToUser", fields: [created_id], references: [user_id], onUpdate: NoAction, map: "FK_UserAddress_User__Created_ID__user_id")
+  User_UserAddress_modified_idToUser User?        @relation("UserAddress_modified_idToUser", fields: [modified_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_UserAddress_User__modified_id__user_id")
+  User_UserAddress_user_idToUser     User         @relation("UserAddress_user_idToUser", fields: [user_id], references: [user_id], onDelete: Cascade, map: "FK_UserAddress_User__user_id")
+}
+
+model UserDetail {
+  user_detail_id                    Int            @id(map: "PK_UserDetail__user_detail_id") @default(autoincrement())
+  user_id                           Int
+  first_name                        String         @db.NVarChar(40)
+  last_name                         String?        @db.NVarChar(40)
+  middle_name                       String?        @db.NVarChar(40)
+  full_name                         String?        @db.NVarChar(122)
+  date_of_birth                     DateTime       @db.DateTime
+  gender                            String         @db.VarChar(50)
+  ethnicity                         String?        @db.VarChar(50)
+  race                              String?        @db.VarChar(50)
+  blood_group                       String?        @db.VarChar(7)
+  is_latest                         Boolean        @default(true, map: "DF_UserDetail__is_latest")
+  begin_date                        DateTime       @db.Date
+  begin_time                        DateTime       @db.Time
+  end_date                          DateTime       @default(dbgenerated("CONVERT([date],'3000-12-31')"), map: "DF_UserDetail__end_date") @db.Date
+  end_time                          DateTime       @default(dbgenerated("CONVERT([time](0),'23:59:59')"), map: "DF_UserDetail__end_time") @db.Time
+  email_id                          String         @unique(map: "UQ_UserDetail__email_id") @db.VarChar(50)
+  phone_number                      String         @unique(map: "UQ_UserDetail__phone_number") @db.VarChar(15)
+  created_id                        Int
+  created_time                      DateTime       @default(now(), map: "DF_UserDetail__created_time") @db.DateTime
+  modified_id                       Int?
+  modified_time                     DateTime?      @db.DateTime
+  modified_reason                   String?        @db.VarChar(Max)
+  LkpBloodGroup                     LkpBloodGroup? @relation(fields: [blood_group], references: [blood_group], onDelete: NoAction, map: "FK_UserDetail_LkpBloodGroup__blood_group")
+  LkpEthnicity                      LkpEthnicity?  @relation(fields: [ethnicity], references: [ethnicity], onDelete: NoAction, map: "FK_UserDetail_LkpEthnicity__ethinicity")
+  LkpGender                         LkpGender      @relation(fields: [gender], references: [gender], map: "FK_UserDetail_LkpGender__gender")
+  LkpRace                           LkpRace?       @relation(fields: [race], references: [race], onDelete: NoAction, map: "FK_UserDetail_LkpRace__race")
+  User_UserDetail_created_idToUser  User           @relation("UserDetail_created_idToUser", fields: [created_id], references: [user_id], onUpdate: NoAction, map: "FK_UserDetail_User__Created_ID__user_id")
+  User_UserDetail_modified_idToUser User?          @relation("UserDetail_modified_idToUser", fields: [modified_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_UserDetail_User__modified_id__user_id")
+  User_UserDetail_user_idToUser     User           @relation("UserDetail_user_idToUser", fields: [user_id], references: [user_id], onDelete: Cascade, map: "FK_UserDetail_User__user_id")
+}
