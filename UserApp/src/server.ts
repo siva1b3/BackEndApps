@@ -1,12 +1,9 @@
 // Import the main application instance
 import app from "./app.js";
-// Import the Prisma client for database interactions
-import { PrismaClient } from "@prisma/client";
+import prisma from "./prisma/prisma.js";
+
 // Import the defined port constant
 import { PORT } from "./constants/constants.js";
-
-// Initialize a new instance of the Prisma client
-const prisma = new PrismaClient();
 
 // Start the server and listen on the specified PORT
 app.listen(PORT, async () => {
