@@ -2,26 +2,27 @@ import { Request, Response, NextFunction } from "express";
 import { ErrorType } from "../types/types.js";
 import { ServerErrorHttpCodes } from "../enums/emums.js";
 
-const errorHandler = (
+const errorHandler = async (
   err: ErrorType,
   req: Request,
-  res: Response,
+  res: Response<ErrorType>,
   next: NextFunction
 ) => {
-  // Log the error for debugging purposes
+  // Log the error (consider using a logging library)
   console.error(err);
 
-  const status = err.status || ServerErrorHttpCodes.InternalServerError;
-  const message = err.message || "An unknown error occurred";
-  const name = err.name || "Unknown Error";
-
   const response: ErrorType = {
-    status,
-    message,
-    name,
+    status: err.status || ServerErrorHttpCodes.InternalServerError,
+    message: err.message || "An unexpected error occurred.",
+    name: err.name || "UnknownError",
   };
 
-  res.status(status).json(response);
+  // In development mode, include additional error details
+  if (process.env.NODE_ENV === "development") {
+    response.stack = err.stack; // Assuming ErrorType can have a stack property
+  }
+
+  res.status(response.status).json(response);
 };
 
 export default errorHandler;

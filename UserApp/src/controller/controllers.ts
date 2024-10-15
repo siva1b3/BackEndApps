@@ -1,3 +1,3 @@
-import userController from "./user.controller.js";
+import UserController from "./user.controller.js";
 
-export { userController };
+export { UserController };

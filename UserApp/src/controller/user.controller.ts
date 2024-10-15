@@ -1,35 +1,38 @@
 import { Request, Response, NextFunction } from "express";
-import { ServerErrorHttpCodes } from "../enums/emums.js";
-import { ResponseType, ErrorType } from "../types/types.js";
+import { ErrorType, ResponseType } from "../types/types.js";
+import {
+  SuccessHttpCodes,
+  ClientErrorHttpCodes,
+  ServerErrorHttpCodes,
+} from "../enums/emums.js";
 import { User } from "@prisma/client";
 import { userService } from "../services/services.js";
 
-const fetchAllUsersController = async (
-  req: Request,
-  res: Response,
+const getAllUsersController = async (
+  req: Request<{}, {}, {}, {}>,
+  res: Response<ResponseType<User>["body"]>,
   next: NextFunction
 ) => {
   try {
-    const usersResponse = await userService.fetchAllUsersService();
+    const user: ResponseType<User> | ErrorType =
+      await userService.getAllUsersService();
 
-    if ("status" in usersResponse && usersResponse.status >= 400) {
-      return next(usersResponse);
+    if ("body" in user) {
+      const data = user as ResponseType<User>;
+      res.status(data.status).json(data.body);
     } else {
-      const response = usersResponse as ResponseType<User>;
-      res.status(response.status).json(response.body);
+      next(user as ErrorType);
     }
-  } catch (err: unknown) {
-    const errorResponse: ErrorType = {
+  } catch (error: unknown) {
+    const data = {
       status: ServerErrorHttpCodes.InternalServerError,
-      message: err instanceof Error ? err.message : "An unknown error occurred",
-      name: err instanceof Error ? err.name : "UnknownError",
-    };
-    next(errorResponse); // Pass the error to the next middleware
+      message: error instanceof Error ? error.message : "Internal server error",
+      name: error instanceof Error ? error.name : "InternalError",
+    } as ErrorType;
+    next(data);
   }
 };
 
-const userController = {
-  fetchAllUsersController,
-};
+const UserController = { getAllUsersController };
 
-export default userController;
+export default UserController;

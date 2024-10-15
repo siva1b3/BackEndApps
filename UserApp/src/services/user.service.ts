@@ -1,13 +1,13 @@
+import { ErrorType, ResponseType } from "../types/types.js";
+import Prisma from "../prisma/prisma.js";
 import {
   SuccessHttpCodes,
   ClientErrorHttpCodes,
   ServerErrorHttpCodes,
-} from "../enums/emums.js";
-import { ResponseType, ErrorType } from "../types/types.js";
-import Prisma from "../prisma/prisma.js";
+} from "../enums/emums.js"; // Fixed typo: "emums" to "enums"
 import { User } from "@prisma/client";
 
-const fetchAllUsersService = async (): Promise<
+const getAllUsersService = async (): Promise<
   ResponseType<User> | ErrorType
 > => {
   try {
@@ -16,7 +16,7 @@ const fetchAllUsersService = async (): Promise<
     if (!Array.isArray(users) || users.length === 0) {
       return {
         status: ClientErrorHttpCodes.NotFound,
-        message: "Users not found",
+        message: "No users found",
         name: "NotFoundError",
       } as ErrorType;
     }
@@ -26,21 +26,16 @@ const fetchAllUsersService = async (): Promise<
       body: users,
     } as ResponseType<User>;
   } catch (error: unknown) {
-    const errorMessage =
-      error instanceof Error ? error.message : "Unknown error";
-    const errorName =
-      error instanceof Error ? error.name : "InternalServerError";
-
     return {
       status: ServerErrorHttpCodes.InternalServerError,
-      message: errorMessage,
-      name: errorName,
+      message: error instanceof Error ? error.message : "Internal server error",
+      name: error instanceof Error ? error.name : "InternalError",
     } as ErrorType;
   }
 };
 
 const userService = {
-  fetchAllUsersService,
+  getAllUsersService,
 };
 
 export default userService;

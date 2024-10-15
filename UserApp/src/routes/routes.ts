@@ -1,3 +1,2 @@
-import UserRouter from "./user.routes.js";
-
-export { UserRouter };
+import userRouter from "./user.routes.js";
+export { userRouter };

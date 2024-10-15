@@ -1,22 +1,20 @@
 import express from "express";
 import cors from "cors";
-import { UserRouter } from "./routes/routes.js";
-import { catchAllRoute, errorHandler } from "./MiddleWare/middleWare.js";
+import { errorHandler, catchAllRoute } from "./middleware/middleware.js";
+import { userRouter } from "./routes/routes.js";
 
 const app = express();
 
-// Enable CORS
 app.use(cors());
-
-// Parse incoming JSON requests
 app.use(express.json());
 
-app.use("/api/V1", UserRouter);
+// Define your routes here
+app.use("/api/vv1", userRouter);
 
-// Catch-all route for undefined routes
+// This will catch any routes not defined above
 app.use(catchAllRoute);
 
-// Error handler middleware
+// This will handle any errors from the above middlewares
 app.use(errorHandler);
 
 export default app;
