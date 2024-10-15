@@ -1,7 +1,7 @@
-import { SuccessHttpStatusCode } from "../enums/enums.js";
+import { SuccessHttpCodes } from "../enums/emums.js";
 
 interface ResponseType<T> {
-  status: SuccessHttpStatusCode;
+  status: SuccessHttpCodes;
   body: T | T[] | Partial<T> | Partial<T>[];
 }
 

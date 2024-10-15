@@ -1,24 +1,46 @@
-import { SuccessHttpStatusCode, ErrorHttpStatusCode } from "../enums/enums.js";
-import { ErrorType, ResponseType } from "../types/types.js";
-import prisma from "../prisma/prisma.js";
-
+import {
+  SuccessHttpCodes,
+  ClientErrorHttpCodes,
+  ServerErrorHttpCodes,
+} from "../enums/emums.js";
+import { ResponseType, ErrorType } from "../types/types.js";
+import Prisma from "../prisma/prisma.js";
 import { User } from "@prisma/client";
 
-const getAllUsers = async () => {
-  const userData: User[] = await prisma.user.findMany({
-    include: {
-      UserDetail_UserDetail_user_idToUser: true,
-    },
-  });
-  const data: ResponseType<User> = {
-    status: SuccessHttpStatusCode.OK,
-    body: userData,
-  };
-  return data;
+const fetchAllUsersService = async (): Promise<
+  ResponseType<User> | ErrorType
+> => {
+  try {
+    const users: User[] = await Prisma.user.findMany();
+
+    if (!Array.isArray(users) || users.length === 0) {
+      return {
+        status: ClientErrorHttpCodes.NotFound,
+        message: "Users not found",
+        name: "NotFoundError",
+      } as ErrorType;
+    }
+
+    return {
+      status: SuccessHttpCodes.OK,
+      body: users,
+    } as ResponseType<User>;
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
+    const errorName =
+      error instanceof Error ? error.name : "InternalServerError";
+
+    return {
+      status: ServerErrorHttpCodes.InternalServerError,
+      message: errorMessage,
+      name: errorName,
+    } as ErrorType;
+  }
 };
 
 const userService = {
-  getAllUsers,
+  fetchAllUsersService,
 };
 
 export default userService;
